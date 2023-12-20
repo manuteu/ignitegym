@@ -5,7 +5,7 @@ import BackgroundImg from '@assets/background.png'
 import Input from '@components/Input'
 import Button from '@components/Button'
 
-export default function SignIn() {
+export default function SignUp() {
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -22,12 +22,17 @@ export default function SignIn() {
           resizeMode='contain'
           position="absolute"
         />
+
         <Center my={24}>
           <LogoSvg />
-          <Text color='gray.100' fontSize='sm'>
+          <Text
+            color='gray.100'
+            fontSize='sm'
+          >
             Treine sua mente e o seu corpo
           </Text>
         </Center>
+
         <Center>
           <Heading
             color='gray.100'
@@ -35,8 +40,12 @@ export default function SignIn() {
             mb={6}
             fontFamily='heading'
           >
-            Acesse sua conta
+            Crie sua conta
           </Heading>
+
+          <Input
+            placeholder='Nome'
+          />
           <Input
             placeholder='E-mail'
             keyboardType='email-address'
@@ -46,20 +55,16 @@ export default function SignIn() {
             placeholder='Senha'
             secureTextEntry
           />
-          <Button title='Acessar' />
+          <Button
+            title='Criar e acessar'
+          />
         </Center>
-        <Center>
-          <Text
-            color='gray.100'
-            fontSize='sm'
-            mb={3}
-            fontFamily='body'
-          >
-            Ainda não tem acesso?
-          </Text>
 
-          <Button title='Criar conta' variant='outline' />
-        </Center>
+        <Button
+          mt={24}
+          title='Voltar par o login'
+          variant='outline'
+        />
       </VStack>
     </ScrollView>
   )
