@@ -37,9 +37,14 @@ export function AppRoutes() {
         borderTopWidth: 0,
         borderTopRightRadius: 12,
         borderTopLeftRadius: 12,
-        height: Platform.OS === 'android' ? 'auto' : 96,
+        height: Platform.OS === 'android' ? 'auto' : 72,
         paddingBottom: sizes[10],
         paddingTop: sizes[6]
+      },
+      tabBarItemStyle: {
+        paddingHorizontal: sizes[10],
+        paddingBottom: sizes[6],
+        paddingTop: sizes[2]
       }
     }} >
       <Screen
