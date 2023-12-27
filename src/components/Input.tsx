@@ -1,25 +1,38 @@
 import React from 'react'
-import { IInputProps, Input as NativeBaseInput } from 'native-base'
+import { IInputProps, Input as NativeBaseInput, FormControl } from 'native-base'
 
-export default function Input({ ...rest }: IInputProps) {
+type Props = IInputProps & {
+  errorMessage?: string | null;
+}
+
+export default function Input({ errorMessage = null, isInvalid, ...rest }: Props) {
+  const invalid = !!errorMessage || isInvalid;
+
   return (
-    <NativeBaseInput
-      bg="gray.700"
-      h={14}
-      px={4}
-      borderWidth={0}
-      fontSize="md"
-      color='white'
-      fontFamily='body'
+    <FormControl
+      isInvalid={invalid}
       mb={4}
-      placeholderTextColor='gray.300'
-      _focus={{
-        bg: 'gray.700',
-        borderWidth: 1,
-        borderColor: 'green.500'
-      }}
-      _disabled={{ bg: 'gray.500' }}
-      {...rest}
-    />
+    >
+      <NativeBaseInput
+        bg="gray.700"
+        h={14}
+        px={4}
+        borderWidth={0}
+        fontSize="md"
+        color='white'
+        fontFamily='body'
+        placeholderTextColor='gray.300'
+        _focus={{
+          bg: 'gray.700',
+          borderWidth: 1,
+          borderColor: 'green.500'
+        }}
+        _disabled={{ bg: 'gray.500' }}
+        {...rest}
+      />
+      <FormControl.ErrorMessage color='red.500'>
+        {errorMessage}
+      </FormControl.ErrorMessage>
+    </FormControl>
   )
 }
