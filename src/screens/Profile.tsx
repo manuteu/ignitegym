@@ -91,7 +91,7 @@ export default function Profile() {
             bg='gray.600'
             isDisabled
           />
-          <Heading color='gray.200' fontSize='md' mb={2} mt={12} alignSelf='flex-start'>Alterar Senha</Heading>
+          <Heading color='gray.200' fontSize='md' mb={2} mt={12} alignSelf='flex-start' fontFamily='heading'>Alterar Senha</Heading>
 
           <Input bg='gray.600' placeholder='Senha antiga' secureTextEntry />
           <Input bg='gray.600' placeholder='Nova senha' secureTextEntry />
