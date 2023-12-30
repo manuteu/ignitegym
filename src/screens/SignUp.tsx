@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { VStack, Image, Text, Center, Heading, ScrollView, Box, Toast, useToast } from 'native-base'
 import LogoSvg from '@assets/logo.svg'
 import BackgroundImg from '@assets/background.png'
@@ -10,6 +10,7 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { api } from '@services/api'
 import { AppError } from '@utils/AppError'
+import { useAuth } from '@hooks/useAuth'
 
 type FormDataProps = {
   name: string;
@@ -26,20 +27,25 @@ const signUpScheema = yup.object({
 })
 
 export default function SignUp() {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { signIn } = useAuth()
+  const toast = useToast()
   const { goBack } = useNavigation()
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     resolver: yupResolver(signUpScheema)
   })
 
-  const toast = useToast()
 
   const handleGoBack = () => {
     goBack()
   }
   const handleSignUp = async ({ email, name, password }: FormDataProps) => {
+    setIsLoading(true)
+
     try {
-      const { data } = await api.post('/users', { email, name, password })
-      console.log(data);
+      await api.post('/users', { email, name, password })
+      await signIn(email, password);
 
     } catch (error) {
       const isAppError = error instanceof AppError
@@ -49,6 +55,7 @@ export default function SignUp() {
         placement: 'top',
         bgColor: 'red.500'
       })
+      setIsLoading(false)
     }
   }
 
@@ -154,6 +161,7 @@ export default function SignUp() {
               mt={4}
               onPress={handleSubmit(handleSignUp)}
               title='Criar e acessar'
+              isLoading={isLoading}
             />
           </Center>
 
