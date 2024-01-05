@@ -71,10 +71,9 @@ export default function Profile() {
         aspect: [4, 4],
         allowsEditing: true,
       })
-      console.log(photoSelected);
 
-      if (photoSelected.canceled) {
-        return;
+      if (!photoSelected.assets) {
+        return
       }
 
       // Utiliza o FileSystem para verificar o tamanho da imagem, já que o Image picker não possui essa função
