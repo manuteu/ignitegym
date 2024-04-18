@@ -9,6 +9,8 @@ import { api } from '@services/api'
 import { AppError } from '@utils/AppError'
 import { ExerciseDTO } from '@dtos/ExerciseDTO'
 import Loading from '@components/Loading'
+import { tagUserInfoCreate } from '../notifications/notificationsTags'
+import { useAuth } from '@hooks/useAuth'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -17,6 +19,9 @@ export default function Home() {
   const [groupSelected, setGroupSelected] = useState('antebraço')
   const toast = useToast()
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { user } = useAuth()
+
+  tagUserInfoCreate({ user_email: user.email, user_name: user.name })
 
   const handleOpenExerciseDetails = (exerciseId: string) => {
     navigate('exercise', { exerciseId })
