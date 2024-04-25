@@ -5,26 +5,35 @@ import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { OSNotification } from 'react-native-onesignal'
 import { AppNavigatorRoutesProps } from '@routes/app.routes'
+import * as Linking from 'expo-linking'
 
 type Props = {
   data: OSNotification
   onClose: () => void;
 }
 
-type AdditionalDataProps = {
-  route?: string;
-  exercise_id?: string;
-}
+type CustomOSNotification = {
+  custom: any;
+};
+
+type CustomUOSNotification = {
+  u: string;
+};
 
 export default function Notification({ data, onClose }: Props) {
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const handleOnPress = () => {
-    const { route, exercise_id } = data.additionalData as AdditionalDataProps
-    if (route === 'exercise' && exercise_id) {
-      navigate('exercise', { exerciseId: exercise_id })
-      onClose()
+    const { custom }: CustomOSNotification = JSON.parse(
+      data.rawPayload.toString()
+    );
+    const { u: uri }: CustomUOSNotification = JSON.parse(custom.toString());
+    console.log(uri);
+
+    if (uri) {
+      Linking.openURL(uri);
+      onClose();
     }
   }
+
   return (
     <Pressable
       borderRadius='lg'

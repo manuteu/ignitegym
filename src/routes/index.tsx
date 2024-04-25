@@ -13,6 +13,20 @@ export function Routes() {
   const { user, isLoadingUserStorageData } = useAuth()
   const [notification, setNotification] = useState<OSNotification>()
 
+  const linking = {
+    prefixes: ['com.mathtechn.ignitegym://', 'ignitegym://'],
+    config: {
+      screens: {
+        exercise: {
+          path: '/exercise/:exerciseId',
+          parse: {
+            exerciseId: (exerciseId: string) => exerciseId,
+          }
+        }
+      }
+    }
+  }
+
   const theme = DefaultTheme;
   theme.colors.background = colors.gray[700]
 
@@ -33,7 +47,7 @@ export function Routes() {
   }
   return (
     <Box flex={1} bg='gray.700'>
-      <NavigationContainer theme={theme}>
+      <NavigationContainer theme={theme} linking={linking}>
         {user.id ? <AppRoutes /> : <AuthRoutes />}
         {notification?.title && (
           <Notification
