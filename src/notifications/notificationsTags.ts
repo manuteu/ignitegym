@@ -6,3 +6,7 @@ export function tagUserInfoCreate({ user_name, user_email }: any) {
     user_email,
   });
 }
+
+export function tagLastExercise(daysCount: string) {
+  OneSignal.User.addTag("last_exercise_days", daysCount)
+}

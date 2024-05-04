@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Heading, Text, useToast, VStack, SectionList } from 'native-base'
 import ScreenHeader from '@components/ScreenHeader'
 import HistoryCard from '@components/HistoryCard'
@@ -7,21 +7,36 @@ import { api } from '@services/api'
 import { useFocusEffect } from '@react-navigation/native'
 import { HistoryByDayDTO } from '@dtos/HistoryByDayDTO'
 import Loading from '@components/Loading'
+import { tagLastExercise } from '../notifications/notificationsTags'
 
 export default function History() {
   const [isLoading, setIsLoading] = useState(true)
   const [exercises, setExercises] = useState<HistoryByDayDTO[]>([])
   const toast = useToast()
 
+  const verifyLastExercise = (lastExerciseDate: any) => {
+    if (!lastExerciseDate) return
+    var actualDate = new Date();
+    var lastExercise = new Date(lastExerciseDate);
+    var secDiference = actualDate - lastExercise;
+    var daysDiference = Math.ceil(secDiference / (1000 * 60 * 60 * 24));
+
+    if (daysDiference) {
+      tagLastExercise(daysDiference.toString())
+    }
+  }
+
   const fetchHistory = async () => {
     setIsLoading(true)
     try {
       const { data } = await api.get('/history')
       setExercises(data);
-
+      if (data[0].data[0].created_at) {
+        verifyLastExercise(data[0].data[0].created_at)
+      }
     } catch (error) {
       const isAppError = error instanceof AppError
-      const title = isAppError ? error.message : 'Não foi possível registrar o exercício.';
+      const title = isAppError ? error.message : 'Não foi possível carregar os exercícios.';
 
       toast.show({
         title,

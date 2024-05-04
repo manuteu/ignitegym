@@ -22,7 +22,8 @@ export function Routes() {
           parse: {
             exerciseId: (exerciseId: string) => exerciseId,
           }
-        }
+        },
+        NotFound: '*',
       }
     }
   }
